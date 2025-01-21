@@ -6,56 +6,100 @@ const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.json());
 
-let studentData = [];
-let nextId = 1;
+// Permissions data
+const permissions = {
+  PANEL_CREATE: true,
+  PANEL_UPDATE: true,
+  PANEL_READ: true,
+  PANEL_DELETE: true,
+  PANELIST_CREATE: true,
+  PANELIST_UPDATE: true,
+  PANELIST_READ: true,
+  PANELIST_DELETE: true,
+  USER_CREATE: true,
+  USER_UPDATE: true,
+  USER_READ: true,
+  USER_DELETE: true,
+  SURVEY_CREATE: false,
+  SURVEY_UPDATE: true,
+  SURVEY_READ: true,
+  SURVEY_DELETE: true,
+  MASTER_QUALIFICATION_CREATE: true,
+  MASTER_QUALIFICATION_UPDATE: true,
+  MASTER_QUALIFICATION_READ: true,
+  MASTER_QUALIFICATION_DELETE: true,
+  ROLE_PERMISSION_UPDATE: true,
+  ROLE_PERMISSION_READ: true,
+  PROJECT_CREATE: true,
+  PROJECT_UPDATE: true,
+  PROJECT_READ: true,
+  PROJECT_DELETE: true,
+  CLIENT_CREATE: true,
+  CLIENT_UPDATE: true,
+  CLIENT_READ: true,
+  CLIENT_DELETE: true,
+};
 
-app.post("/students", (req, res) => {
-  let { name, age } = req.body;
-  const student = { id: nextId++, name, age };
-  studentData.push(student);
-  res.status(201).send(student);
+// Define GET API route
+app.get('/permissions', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Permissions fetched successfully',
+    data: permissions,
+  });
 });
 
-app.get("/students", (req, res) => {
-  res.send(studentData);
-});
 
-app.get("/students/:id", (req, res) => {
-  const student = studentData.find(
-    (student) => student.id === parseInt(req.params.id)
-  );
-  if (student) {
-    res.send(student);
-  } else {
-    res.status(404).send("Student not found");
-  }
-});
+// let studentData = [];
+// let nextId = 1;
 
-app.put("/students/:id", (req, res) => {
-  const student = studentData.find(
-    (student) => student.id === parseInt(req.params.id)
-  );
-  if (student) {
-    let { name, age } = req.body;
-    student.name = name;
-    student.age = age;
-    res.send(student);
-  } else {
-    res.status(404).send("Student not found");
-  }
-});
+// app.post("/students", (req, res) => {
+//   let { name, age } = req.body;
+//   const student = { id: nextId++, name, age };
+//   studentData.push(student);
+//   res.status(201).send(student);
+// });
 
-app.delete("/students/:id", (req, res) => {
-  const studentIndex = studentData.findIndex(
-    (student) => student.id === parseInt(req.params.id)
-  );
-  if (studentIndex !== -1) {
-    studentData.splice(studentIndex, 1);
-    res.send("Student deleted");
-  } else {
-    res.status(404).send("Student not found");
-  }
-});
+// app.get("/students", (req, res) => {
+//   res.send(studentData);
+// });
+
+// app.get("/students/:id", (req, res) => {
+//   const student = studentData.find(
+//     (student) => student.id === parseInt(req.params.id)
+//   );
+//   if (student) {
+//     res.send(student);
+//   } else {
+//     res.status(404).send("Student not found");
+//   }
+// });
+
+// app.put("/students/:id", (req, res) => {
+//   const student = studentData.find(
+//     (student) => student.id === parseInt(req.params.id)
+//   );
+//   if (student) {
+//     let { name, age } = req.body;
+//     student.name = name;
+//     student.age = age;
+//     res.send(student);
+//   } else {
+//     res.status(404).send("Student not found");
+//   }
+// });
+
+// app.delete("/students/:id", (req, res) => {
+//   const studentIndex = studentData.findIndex(
+//     (student) => student.id === parseInt(req.params.id)
+//   );
+//   if (studentIndex !== -1) {
+//     studentData.splice(studentIndex, 1);
+//     res.send("Student deleted");
+//   } else {
+//     res.status(404).send("Student not found");
+//   }
+// });
 
 app.listen(port, () => {
   console.log(`Server is running on port :${port}`);
