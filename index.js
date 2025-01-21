@@ -1,7 +1,14 @@
 import 'dotenv/config';
 import express from "express";
+// const cors = require('cors');
+import cors from 'cors';
+
+// const express = require('express');  
 
 const app = express();
+
+app.use(cors());
+
 
 const port = process.env.PORT || 3000;
 app.use(express.json());
@@ -11,7 +18,7 @@ const permissions = {
   PANEL_CREATE: true,
   PANEL_UPDATE: true,
   PANEL_READ: true,
-  PANEL_DELETE: true,
+  PANEL_DELETE: false,
   PANELIST_CREATE: true,
   PANELIST_UPDATE: true,
   PANELIST_READ: true,
@@ -30,18 +37,18 @@ const permissions = {
   MASTER_QUALIFICATION_DELETE: true,
   ROLE_PERMISSION_UPDATE: true,
   ROLE_PERMISSION_READ: true,
-  PROJECT_CREATE: true,
+  PROJECT_CREATE: false,
   PROJECT_UPDATE: true,
   PROJECT_READ: true,
   PROJECT_DELETE: true,
-  CLIENT_CREATE: true,
+  CLIENT_CREATE: false,
   CLIENT_UPDATE: true,
   CLIENT_READ: true,
   CLIENT_DELETE: true,
 };
 
 // Define GET API route
-app.get('/permissions', (req, res) => {
+app.get('/permissions', (_, res) => {
   res.status(200).json({
     success: true,
     message: 'Permissions fetched successfully',
